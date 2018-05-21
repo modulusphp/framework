@@ -24,7 +24,7 @@ class Logger
      */
     $logfile = '../storage/logs/modulus.log';
 
-    $dotenv = new Dotenv\Dotenv(__DIR__.'/../../');
+    $dotenv = new Dotenv\Dotenv(__DIR__.'/../../../../');
     $dotenv->load();
 
     $currentdate = date("Y-m-d").' '.date("G:i:s");
