@@ -2,7 +2,6 @@
 
 namespace ModulusPHP\Framework\Core;
 
-use App\Models\User;
 use ModulusPHP\Http\Request;
 use ModulusPHP\Touch\Compiler;
 use JeffOchoa\ValidatorFactory;
