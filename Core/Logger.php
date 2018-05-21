@@ -14,7 +14,7 @@ class Logger
    * @param  string  $type
    * @return
    */
-  private static function output($text = null, $trace = false, $type = '.INFO:')
+  public static function output($text = null, $trace = false, $type = '.INFO:')
   {
     /**
      * ['file']
