@@ -46,9 +46,9 @@ class Reflect
 
     foreach($args as $param) {
       $class = '\\'.$param->getType();
-      $_instanceClass = new $class();
 
       if (class_exists($class)) {
+        $_instanceClass = class_exists($class) != true ?: new $class();
         $where = array_keys($matches)[$index];
         $value = array_values($matches)[$index];
 
@@ -90,6 +90,9 @@ class Reflect
           $matches[$where] = new $class($matches[$value]);
         }
 
+      }
+      else {
+        $matches[$where] = $matches[$value];
       }
 
       $index++;
