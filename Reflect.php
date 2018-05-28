@@ -4,7 +4,10 @@ namespace ModulusPHP\Framework;
 
 use ReflectionMethod;
 use ModulusPHP\Framework\Query;
+use ModulusPHP\Framework\Model;
+use ModulusPHP\Http\Requests\Request;
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Reflect
 {
@@ -43,13 +46,13 @@ class Reflect
 
     foreach($args as $param) {
       $class = '\\'.$param->getType();
-      $ModulusModel = new $class();
+      $_instanceClass = new $class();
 
       if (class_exists($class)) {
         $where = array_keys($matches)[$index];
         $value = array_values($matches)[$index];
 
-        if ($class == "\ModulusPHP\Http\Requests\Request") {
+        if ($_instanceClass instanceof Request) {
           $request = new Request;
           if ($ajax == true) {
             $request->__ajax = true;
@@ -73,8 +76,8 @@ class Reflect
             $matches[$where] = $request;
           }
         }
-        else if ($ModulusModel instanceof \ModulusPHP\Framework\Model || $ModulusModel instanceof \Illuminate\Database\Eloquent\Model) {
-          $table = DB::getTablePrefix().$ModulusModel->getTable();
+        else if ($_instanceClass instanceof Model || $_instanceClass instanceof Eloquent) {
+          $table = DB::getTablePrefix().$_instanceClass->getTable();
           $database = getenv('DB_DATABASE');
 
           if ($where != null && is_integer($where) == false) {
