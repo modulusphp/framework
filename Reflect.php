@@ -77,24 +77,8 @@ class Reflect
           }
         }
         else if ($_instanceClass instanceof Model || $_instanceClass instanceof Eloquent) {
-          $table = DB::getTablePrefix().$_instanceClass->getTable();
-          $database = getenv('DB_DATABASE');
-
           if ($where != null && is_integer($where) == false) {
-            $key = Query::sql("select COLUMN_KEY from INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' and TABLE_SCHEMA = '$database' AND COLUMN_NAME = '$where'")[0];
-
-            if ($key !== null) {
-              if ($key == 'UNI' || $key = 'PRI') {
-                $model = (new $class)->where($where, $value)->first();
-              }
-              else {
-                $model = (new $class)->where($where, $value)->get();
-              }
-            }
-            else {
-              $model = (new $class)->where($where, $value)->get();
-            }
-
+            $model = (new $class)->where($where, $value)->first();
           }
           else {
             $model = null;
