@@ -1,0 +1,113 @@
+<?php
+
+namespace ModulusPHP\Framework;
+
+use ReflectionMethod;
+use ModulusPHP\Framework\Query;
+use Illuminate\Database\Capsule\Manager as DB;
+
+class Reflect
+{
+  /**
+   * reflect
+   * 
+   * @param  class  $controller
+   * @param  method $action
+   * @param  array  $matches
+   * @param  bool   $ajax
+   * @return array  $matches
+   */
+  public static function handle($controller, $action, $matches, $ajax)
+  {
+    if (method_exists($controller, $action) == false) {
+      return;
+    }
+
+    $r = new ReflectionMethod(new $controller(), $action);
+
+    $args = $r->getParameters();
+    $count = $r->getNumberOfParameters();
+    $required = $r->getNumberOfRequiredParameters();
+
+    $index = 0;
+    $noArgs = false;
+
+    if ($matches == null) {
+      $noArgs = true;
+      $matches = $args;
+    }
+
+    // if (count($matches) < $required) {
+    // 
+    // }
+
+    foreach($args as $param) {
+      $class = '\\'.$param->getType();
+      $ModulusModel = new $class();
+
+      if (class_exists($class)) {
+        $where = array_keys($matches)[$index];
+        $value = array_values($matches)[$index];
+
+        if ($class == "\ModulusPHP\Http\Requests\Request") {
+          $req = new Request;
+          if ($ajax == true) {
+            $req->__ajax = true;
+          }
+
+          $req->__data = array_merge($_POST, $_GET);
+          $req->__files = $_FILES;
+          $req->__cookies = $_COOKIE;
+
+          if ($noArgs == false) {
+            $previous = array_prev_key($where, $matches);
+
+            if ($previous == null) {
+              $matches = array_merge([$req], $matches);
+            }
+            else {
+              $matches = array_insert_after($matches, $previous, [$req]);
+            }
+          }
+          else {
+            $matches[$where] = $req;
+          }
+        }
+        else if ($ModulusModel instanceof \ModulusPHP\Framework\Model || $ModulusModel instanceof \Illuminate\Database\Eloquent\Model) {
+          $table = DB::getTablePrefix().$ModulusModel->getTable();
+          $database = getenv('DB_DATABASE');
+
+          if ($where != null && is_integer($where) == false) {
+            $key = Query::sql("select COLUMN_KEY from INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table' and TABLE_SCHEMA = '$database' AND COLUMN_NAME = '$where'")[0];
+
+            if ($key !== null) {
+              if ($key == 'UNI' || $key = 'PRI') {
+                $model = (new $class)->where($where, $value)->first();
+              }
+              else {
+                $model = (new $class)->where($where, $value)->get();
+              }
+            }
+            else {
+              $model = (new $class)->where($where, $value)->get();
+            }
+
+          }
+          else {
+            $model = null;
+          }
+
+          $matches[$where] = $model == null ? new $class : $model;
+        }
+        else {
+          $matches[$where] = new $class($matches[$value]);
+        }
+
+      }
+
+      $index++;
+    }
+
+    return $matches;
+  }
+}
