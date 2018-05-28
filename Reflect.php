@@ -50,27 +50,27 @@ class Reflect
         $value = array_values($matches)[$index];
 
         if ($class == "\ModulusPHP\Http\Requests\Request") {
-          $req = new Request;
+          $request = new Request;
           if ($ajax == true) {
-            $req->__ajax = true;
+            $request->__ajax = true;
           }
 
-          $req->__data = array_merge($_POST, $_GET);
-          $req->__files = $_FILES;
-          $req->__cookies = $_COOKIE;
+          $request->__data = array_merge($_POST, $_GET);
+          $request->__files = $_FILES;
+          $request->__cookies = $_COOKIE;
 
           if ($noArgs == false) {
             $previous = array_prev_key($where, $matches);
 
             if ($previous == null) {
-              $matches = array_merge([$req], $matches);
+              $matches = array_merge([$request], $matches);
             }
             else {
-              $matches = array_insert_after($matches, $previous, [$req]);
+              $matches = array_insert_after($matches, $previous, [$request]);
             }
           }
           else {
-            $matches[$where] = $req;
+            $matches[$where] = $request;
           }
         }
         else if ($ModulusModel instanceof \ModulusPHP\Framework\Model || $ModulusModel instanceof \Illuminate\Database\Eloquent\Model) {
