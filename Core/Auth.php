@@ -2,6 +2,7 @@
 
 namespace ModulusPHP\Framework\Core;
 
+use App\Models\User;
 use ModulusPHP\Http\Request;
 use ModulusPHP\Touch\Compiler;
 use JeffOchoa\ValidatorFactory;
@@ -70,13 +71,13 @@ class Auth
         'reason' => 'user already already logged in'
       );
     }
-    
+
     $valid = Auth::validate($request, $validator) != null ? Auth::validate($request, $validator)->toArray() : null ;
 
     if (@$request['modulus_referred'] != null || @$request['modulus_referred'] != Compiler::currentUrl()) {
       $_SERVER['HTTP_REFERRE'] = @$request['modulus_referred'];
     }
-    
+
     if (filter_var(($username), FILTER_VALIDATE_EMAIL))
     {
       $email = $username;
@@ -91,7 +92,7 @@ class Auth
                 return redirect($request['modulus_referred']);
               }
             }
-            
+
             return (object)array(
               'status' => 'success',
               'modulus_referred' => @$request['modulus_referred']
@@ -120,7 +121,7 @@ class Auth
         'validator' => $valid
       );
     }
-    
+
     // username
     $user = DB::table('users')->where('username', $username)->first();
     if ($user !== null && $request['password'] != null)
@@ -181,7 +182,7 @@ class Auth
           return $response->errors();
         }
       }
-      
+
       return null;
     }
   }
@@ -197,7 +198,6 @@ class Auth
     if (__login($user->email)['status'] != 'success') {
       redirect('/register');
     }
-    
   }
 
   /**
