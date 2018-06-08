@@ -7,6 +7,14 @@ use ModulusPHP\Framework\Reflect;
 
 class Middleware
 {
+  /**
+   * Run middleware
+   * 
+   * @param  array $routes
+   * @param  array $matches
+   * @param  bool  $ajax
+   * @return void
+   */
   public static function run($routes = null, $matches, $ajax)
   {
     if ($routes == null) {

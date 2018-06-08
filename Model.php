@@ -23,7 +23,7 @@ class Model extends Eloquent
       $check = self::where($param, $value)->first();
 
       if ($check != null) {
-        $response = array_merge($response, array($param => "The $param has already been taken"));
+        $response = array_merge($response, array($param => "The $param has already been taken."));
       }
     }
 
