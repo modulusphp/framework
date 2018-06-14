@@ -32,8 +32,6 @@ class Reflect
     $r = new ReflectionMethod(new $controller(), $action);
 
     $args = $r->getParameters();
-    $count = $r->getNumberOfParameters();
-    $required = $r->getNumberOfRequiredParameters();
 
     $index = 0;
     $noArgs = false;
@@ -103,7 +101,7 @@ class Reflect
     }
 
     foreach($matches as $key => $match) {
-      if (get_class($match) == 'ReflectionParameter') {
+      if (is_object($match) == true && get_class($match) == 'ReflectionParameter') {
         \App\Core\Log::error("Required arguments not satisfied for $action() in ".get_class($controller).".");
         View::error(500);
         die();
