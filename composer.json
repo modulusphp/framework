@@ -19,7 +19,7 @@
     "modulusphp/helper": ">=1.0",
     "modulusphp/http": ">=1.0",
     "modulusphp/mail": ">=1.0",
-    "modulusphp/secure": ">=1.0",
+    "modulusphp/secure": ">=1.0.1",
     "modulusphp/touch": ">=1.0",
     "phpunit/phpunit": "^7.2@dev",
     "symfony/console": "v4.0.7",
