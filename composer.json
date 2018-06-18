@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/framework",
   "description": "The modulusPHP framework",
-  "version": "1.0",
+  "version": "1.0.1",
   "license": "MIT",
   "type": "package",
   "authors": [
