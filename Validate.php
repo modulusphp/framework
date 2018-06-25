@@ -12,7 +12,7 @@ class Validate
   {
     $factory = new ValidatorFactory();
 
-    if (is_array($unknown)) {
+    if (is_array($unknown) && count($unknown) > 0) {
       $custom = $unknown;
     }
 
