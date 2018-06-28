@@ -4,6 +4,7 @@ namespace ModulusPHP\Framework\Core;
 
 use App\Core\Log;
 use App\Models\User;
+use App\Models\Password;
 use ModulusPHP\Http\Request;
 use ModulusPHP\Touch\Compiler;
 use JeffOchoa\ValidatorFactory;
@@ -32,9 +33,7 @@ class Auth
   {
     if (__isGuest() != true) {
       $user = __user();
-
-      if (filter_var(($user), FILTER_VALIDATE_EMAIL)) return User::where('email', $user)->first();
-      return User::where('username', $user)->first();
+      return User::where('remember_token', $user)->first();
     }
 
     return null;
@@ -78,11 +77,12 @@ class Auth
   public static function authorize($user, $selector = null, $table = 'users')
   {
     $field = $selector == null ? 'username' : $selector;
+    $token = Password::token(20);
 
     $where = filter_var(($user), FILTER_VALIDATE_EMAIL) == true ? 'email' : $field;
-    $user = DB::table($table)->where($where, $user)->first();
+    $user = DB::table($table)->where($where, $user)->update(['remember_token' => $token]);
 
-    if (__login($user->email)['status'] != 'success') redirect('/register');
+    if (__login($token)['status'] != 'success') redirect('/register');
   }
 
   /**
