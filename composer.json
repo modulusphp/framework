@@ -11,7 +11,6 @@
     }
   ],
   "require": {
-    "atlantisphp/console": "^1.0",
     "atlantisphp/medusa": "^1.0",
     "atlantisphp/swish": "^1.1",
     "atlantisphp/telemonlog": "^1.0",
