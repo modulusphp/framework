@@ -1,0 +1,37 @@
+{
+  "name": "modulusphp/framework",
+  "description": "Framework component for modulusPHP",
+  "version": "1.9.0",
+  "license": "MIT",
+  "type": "package",
+  "authors": [
+    {
+      "name": "Donald Pakkies",
+      "email": "donaldpakkies@gmail.com"
+    }
+  ],
+  "require": {
+    "atlantisphp/console": "^1.0",
+    "atlantisphp/medusa": "^1.0",
+    "atlantisphp/swish": "^1.1",
+    "atlantisphp/telemonlog": "^1.0",
+    "bugsnag/bugsnag": "^3.14",
+    "doctrine/dbal": "^2.8",
+    "modulusphp/console": "^1.9.0",
+    "modulusphp/directives": "^1.9.0",
+    "modulusphp/http": "^1.9.0",
+    "modulusphp/security": "^1.9.0",
+    "modulusphp/support": "^1.9.0",
+    "modulusphp/system": "^1.9.0",
+    "modulusphp/utility": "^1.9.0",
+    "hashids/hashids": "^3.0",
+    "illuminate/database": "^5.6",
+    "illuminate/validation": "^5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "ModulusPHP\\Framework\\": ""
+    }
+  },
+  "minimum-stability": "stable"
+}
