@@ -4,8 +4,8 @@ namespace Modulus\Framework;
 
 use Modulus\Http\Session;
 use Modulus\Security\Hash;
+use Modulus\Hibernate\Model;
 use Modulus\Utility\Notification;
-use Modulus\Framework\Mocks\Model;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Modulus\Framework\Auth\Notifications\MustLoginIn;
 

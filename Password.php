@@ -3,7 +3,7 @@
 namespace Modulus\Framework;
 
 use Modulus\Http\Session;
-use Modulus\Framework\Mocks\Model;
+use Modulus\Hibernate\Model;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Password extends Eloquent

@@ -2,7 +2,7 @@
 
 namespace Modulus\Framework;
 
-use Modulus\Framework\Mocks\Model;
+use Modulus\Hibernate\Model;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class VerifiedUser extends Eloquent
