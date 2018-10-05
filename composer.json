@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/framework",
   "description": "Framework component for modulusPHP",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "license": "MIT",
   "type": "package",
   "authors": [
@@ -17,7 +17,7 @@
     "bugsnag/bugsnag": "^3.14",
     "doctrine/dbal": "^2.8",
     "modulusphp/hibernate": "^1.9.0",
-    "modulusphp/console": "^1.9.0",
+    "modulusphp/console": "^1.9.2",
     "modulusphp/directives": "^1.9.0",
     "modulusphp/http": "^1.9.0",
     "modulusphp/security": "^1.9.0",
