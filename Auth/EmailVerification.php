@@ -4,10 +4,24 @@ namespace Modulus\Framework\Auth;
 
 use Carbon\Carbon;
 use Modulus\Security\Hash;
+use Modulus\Utility\Notification;
 use Modulus\Framework\VerifiedUser;
+use Modulus\Framework\Auth\Notifications\MustVerifyEmail;
 
 trait EmailVerification
 {
+  /**
+   * Send verify email notification
+   *
+   * @param string $email
+   * @param string $token
+   * @return array
+   */
+  protected function sendVerifyEmailNotification($user, string $token) : array
+  {
+    return Notification::make(new MustVerifyEmail($user->email, $token));
+  }
+
   /**
    * Verify email
    *
