@@ -2,10 +2,13 @@
 
 namespace Modulus\Framework;
 
-use Illuminate\Database\Eloquent\Model;
+use Modulus\Hibernate\Model;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Migration extends Model
+class Migration extends Eloquent
 {
+  use Model;
+
   /**
    * The attributes that are mass assignable.
    *
