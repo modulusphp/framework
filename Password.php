@@ -19,6 +19,11 @@ class Password extends Eloquent
     'email', 'token',
   ];
 
+  /**
+   * $table
+   *
+   * @var string
+   */
   protected $table = 'password_resets';
 
   /**

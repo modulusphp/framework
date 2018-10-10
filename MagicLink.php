@@ -22,6 +22,11 @@ class MagicLink extends Eloquent
     'email', 'token',
   ];
 
+  /**
+   * $table
+   *
+   * @var string
+   */
   protected $table = 'magic_links';
 
   /**

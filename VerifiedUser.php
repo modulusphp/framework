@@ -18,5 +18,10 @@ class VerifiedUser extends Eloquent
     'email', 'token',
   ];
 
+  /**
+   * $table
+   *
+   * @var string
+   */
   protected $table = 'verified_users';
 }
