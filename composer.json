@@ -23,7 +23,7 @@
     "modulusphp/security": "^1.9.0",
     "modulusphp/support": "^1.9.0",
     "modulusphp/system": "^1.9.0",
-    "modulusphp/utility": "^1.9.0",
+    "modulusphp/utility": "^1.9.1",
     "hashids/hashids": "^3.0",
     "illuminate/database": "^5.6",
     "illuminate/validation": "^5.6",
