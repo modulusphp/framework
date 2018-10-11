@@ -9,6 +9,7 @@ use Modulus\Utility\Events;
 use Whoops\Handler\Handler;
 use Whoops\Run as WhoopsRun;
 use Modulus\Console\ModulusCLI;
+use AtlantisPHP\Telemonlog\Output;
 use Whoops\Handler\{PrettyPageHandler, CallbackHandler, JsonResponseHandler};
 
 trait ErrorReport
@@ -23,11 +24,16 @@ trait ErrorReport
     $whoopsRun     = new WhoopsRun;
     $development   = new PrettyPageHandler;
     $errors        = new Error;
-    $production    = new CallbackHandler($this->register());
+    $production    = new CallbackHandler($this->uiRegister());
+    $cliErrors     = new CallbackHandler($this->cliRegister());
 
     $development->setPageTitle("Whoops! There was a problem.");
 
-    $whoopsRun->pushHandler(config('app.env') == 'production' ? $production : $development);
+    if ($isConsole) {
+      $whoopsRun->pushHandler($cliErrors);
+    } else {
+      $whoopsRun->pushHandler(config('app.env') == 'production' ? $production : $development);
+    }
 
     if (Misc::isAjaxRequest()) {
       $whoopsRun->pushHandler(new JsonResponseHandler);
@@ -41,15 +47,28 @@ trait ErrorReport
     $whoopsRun->register();
   }
 
-   /**
+  /**
    * Register production errors
    *
    * @return void
    */
-  public function register() : Closure
+  public function uiRegister() : Closure
   {
     return function($exception, $inspector, $run) {
       Events::trigger('internal.error', [$exception, $inspector, $this->isAjax()]);
+    };
+  }
+
+  /**
+   * Register cli errors
+   *
+   * @return void
+   */
+  public function cliRegister() : Closure
+  {
+    return function($exception, $inspector, $run) {
+      Output::error($exception);
+      die($exception . PHP_EOL);
     };
   }
 
