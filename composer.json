@@ -24,7 +24,7 @@
     "modulusphp/hibernate": "^1.9.0",
     "modulusphp/console": "^1.9.4",
     "modulusphp/directives": "^1.9.0",
-    "modulusphp/http": "^1.9.1",
+    "modulusphp/http": "^1.9.2",
     "modulusphp/security": "^1.9.0",
     "modulusphp/support": "^1.9.0",
     "modulusphp/system": "^1.9.0",
