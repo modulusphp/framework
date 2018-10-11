@@ -26,7 +26,7 @@
     "modulusphp/directives": "^1.9.0",
     "modulusphp/http": "^1.9.2",
     "modulusphp/security": "^1.9.0",
-    "modulusphp/support": "^1.9.0",
+    "modulusphp/support": "^1.9.1",
     "modulusphp/system": "^1.9.0",
     "modulusphp/utility": "^1.9.2",
     "peppeocchi/php-cron-scheduler": "^2.3"
