@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/framework",
   "description": "Framework component for modulusPHP",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "license": "MIT",
   "type": "package",
   "authors": [
@@ -16,6 +16,11 @@
     "atlantisphp/telemonlog": "^1.0",
     "bugsnag/bugsnag": "^3.14",
     "doctrine/dbal": "^2.8",
+    "filp/whoops": "^2.2",
+    "fzaninotto/faker": "^1.8",
+    "hashids/hashids": "^3.0",
+    "illuminate/validation": "^5.6",
+    "illuminate/database": "^5.6",
     "modulusphp/hibernate": "^1.9.0",
     "modulusphp/console": "^1.9.3",
     "modulusphp/directives": "^1.9.0",
@@ -24,10 +29,7 @@
     "modulusphp/support": "^1.9.0",
     "modulusphp/system": "^1.9.0",
     "modulusphp/utility": "^1.9.1",
-    "hashids/hashids": "^3.0",
-    "illuminate/database": "^5.6",
-    "illuminate/validation": "^5.6",
-    "filp/whoops": "^2.2"
+    "peppeocchi/php-cron-scheduler": "^2.3"
   },
   "autoload": {
     "psr-4": {
