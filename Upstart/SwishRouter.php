@@ -3,7 +3,7 @@
 namespace Modulus\Framework\Upstart;
 
 use AtlantisPHP\Swish\Route;
-use App\Resolver\RouterResolver;
+use App\Resolvers\RouterResolver;
 use Modulus\Http\Route as Router;
 use AtlantisPHP\Swish\SwishHandler;
 use Modulus\Framework\Upstart\SwishEvents;
