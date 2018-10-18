@@ -21,12 +21,21 @@ class Upstart
   use UpstartThrowable; // Throw exception
 
   /**
+   * $ready
+   *
+   * @var boolean
+   */
+  public static $ready = false;
+
+  /**
    * Start application
    *
    * @return void
    */
   public function boot(?bool $isConsole = false) : void
   {
+    if (Upstart::$ready) return;
+
     $this->bootEnv();
     $this->errorHandling($isConsole);
     $this->logger();
@@ -42,5 +51,7 @@ class Upstart
     $this->directives();
     $this->handleSwish();
     $this->route($isConsole);
+
+    Upstart::$ready = true;
   }
 }
