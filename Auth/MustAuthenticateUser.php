@@ -47,7 +47,7 @@ trait MustAuthenticateUser
    */
   protected function fails()
   {
-    Redirect::to('/login')->with('error', 'Tokan has expired or is invalid.', 200);
+    Redirect::to('/login')->with('error', 'Token has expired or is invalid.', 200);
   }
 
   /**
