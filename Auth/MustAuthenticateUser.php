@@ -10,7 +10,7 @@ use Modulus\Security\Auth;
 use Modulus\Framework\MagicLink;
 use Modulus\Utility\Notification;
 use Modulus\Framework\Auth\RedirectsUsers;
-use Modulus\Framework\Auth\Notifications\MustLoginIn;
+use Modulus\Framework\Auth\Notifications\MustLogin;
 use Modulus\Framework\Auth\Requests\EmailLoginRequest;
 
 trait MustAuthenticateUser
@@ -26,7 +26,7 @@ trait MustAuthenticateUser
    */
   protected function sendMagicLinkNotification(string $email, string $token) : array
   {
-    return Notification::make(new MustLoginIn($email, $token));
+    return Notification::make(new MustLogin($email, $token));
   }
 
   /**
