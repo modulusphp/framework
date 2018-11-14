@@ -4,6 +4,7 @@ namespace Modulus\Framework\Auth;
 
 use Modulus\Http\Session;
 use Modulus\Security\Hash;
+use Modulus\Support\Config;
 use Modulus\Framework\Password;
 
 trait MustGenerateResetPasswordToken
@@ -16,7 +17,7 @@ trait MustGenerateResetPasswordToken
    */
   public static function notify($request, $provider, $musked)
   {
-    $model = config("auth.provider.{$provider}.model");
+    $model = Config::get("auth.provider.{$provider}.model");
     $token = Hash::random(35);
 
     if ($model::where($musked, $request->input('email'))->first() !== null) {
