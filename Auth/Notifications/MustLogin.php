@@ -5,7 +5,7 @@ namespace Modulus\Framework\Auth\Notifications;
 use Modulus\Utility\Mail;
 use Modulus\Utility\Notification;
 
-class MustLoginIn extends Notification
+class MustLogin extends Notification
 {
   /**
    * $email
