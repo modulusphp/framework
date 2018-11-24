@@ -5,46 +5,39 @@ namespace Modulus\Framework\Upstart;
 use Exception;
 use Modulus\Directives\Using;
 use Modulus\Utility\Accessor;
+use Modulus\Directives\Partial;
 
 trait ViewComponent
 {
   /**
    * Load the view component
    *
+   * @param bool $try
    * @return void
    */
   private function loadView(bool $try = false) : void
   {
+    // configure view component
     Accessor::$viewsExtension = config('view.extension');
     Accessor::$viewsEngine    = config('view.engine');
+    Accessor::$viewsCache     = config('app.dir') . config('view.compiled');
+    Accessor::$viewsDirectory = config('app.dir') . config('view.views');
 
-    Using::$views = config('app.dir') . config('view.views');
-
-    if ($try) {
-      Accessor::$viewsCache     = DIRECTORY_SEPARATOR . config('app.dir') . config('view.compiled');
-      Accessor::$viewsDirectory = DIRECTORY_SEPARATOR . config('app.dir') . config('view.views');
-
-      Accessor::requireView();
-    } else {
-      Accessor::$viewsCache     = config('app.dir') . config('view.compiled');
-      Accessor::$viewsDirectory = config('app.dir') . config('view.views');
-
-      try {
-        Accessor::requireView();
-      }
-      catch (Exception $e) {
-        $this->loadView(true);
-      }
-    }
+    // load component
+    Accessor::requireView();
   }
 
   /**
-   * Configure directive engine
+   * Configure directive
    *
    * @return void
    */
   private function directives() : void
   {
-    Using::$engine = config('view.engine');
+    Using::$engine      = config('view.engine');
+    Using::$views       = config('app.dir') . config('view.views');
+
+    Partial::$views     = config('app.dir') . config('view.views');
+    Partial::$extension = config('view.extension');
   }
 }

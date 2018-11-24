@@ -3,6 +3,7 @@
 namespace Modulus\Framework\Upstart;
 
 use Modulus\Utility\Accessor;
+use Modulus\Support\Config as AppConfig;
 use Modulus\System\{DB, Env, Config as UpstartConfig};
 
 trait AppConnect
@@ -38,5 +39,6 @@ trait AppConnect
     UpstartConfig::$root        = config('app.dir');
 
     Env::start();
+    date_default_timezone_set(env('APP_TIMEZONE', AppConfig::has('app.timezone') ? AppConfig::get('app.timezone') : 'UTC'));
   }
 }
