@@ -7,7 +7,6 @@ use Modulus\Security\Hash;
 use Modulus\Hibernate\Model;
 use Modulus\Utility\Notification;
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Modulus\Framework\Auth\Notifications\MustLoginIn;
 
 class MagicLink extends Eloquent
 {

@@ -2,6 +2,7 @@
 
 namespace Modulus\Framework;
 
+use Modulus\Support\Config;
 use Modulus\Utility\Variable;
 
 class Blulight
@@ -31,11 +32,17 @@ class Blulight
   /**
    * Start the session
    *
-   * @return void
+   * @return mixed
    */
-  private function startSession() : void
+  private function startSession()
   {
-    session_start();
+    if (Config::has('session') && is_array($session = Config::get('session'))) {
+      return session_start($session);
+    }
+
+    session_start([
+      'name' => 'modulus_session'
+    ]);
   }
 
   /**
