@@ -26,6 +26,7 @@
     "modulusphp/support": "^1.9.2",
     "modulusphp/system": "^1.9.2",
     "modulusphp/utility": "^1.9.3",
+    "modulusphp/filesystem": "^1.9.0",
     "peppeocchi/php-cron-scheduler": "^2.3",
     "psy/psysh": "@stable"
   },
