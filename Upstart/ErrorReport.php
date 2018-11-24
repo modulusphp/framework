@@ -4,16 +4,30 @@ namespace Modulus\Framework\Upstart;
 
 use Error;
 use Closure;
+use Exception;
 use Whoops\Util\Misc;
+use Modulus\Http\Request;
 use Modulus\Utility\Events;
 use Whoops\Handler\Handler;
 use Whoops\Run as WhoopsRun;
 use Modulus\Console\ModulusCLI;
 use AtlantisPHP\Telemonlog\Output;
+use Modulus\Framework\Events\ApplicationErrors;
 use Whoops\Handler\{PrettyPageHandler, CallbackHandler, JsonResponseHandler};
 
 trait ErrorReport
 {
+  /**
+   * Listen to internal errors
+   *
+   * @return void
+   */
+  private function internalErrors() : void
+  {
+    if (!class_exists(ApplicationErrors::class)) return;
+    Events::listen('internal.error',  ApplicationErrors::class);
+  }
+
   /**
    * Handle application errors
    *
@@ -21,6 +35,8 @@ trait ErrorReport
    */
   private function errorHandling(?bool $isConsole = false)
   {
+    $this->internalErrors();
+
     $whoopsRun     = new WhoopsRun;
     $development   = new PrettyPageHandler;
     $errors        = new Error;
@@ -29,11 +45,21 @@ trait ErrorReport
 
     $development->setPageTitle("Whoops! There was a problem.");
 
-    if ($isConsole) {
-      $whoopsRun->pushHandler($cliErrors);
-    } else {
-      $whoopsRun->pushHandler(config('app.env') == 'production' ? $production : $development);
+    foreach ($_ENV as $key => $value) {
+      if (str_contains(strtolower($key), ['password', 'key', 'token', 'port', 'user', 'connection', 'host', 'database'])) {
+        $development->blacklist('_ENV', $key);
+      }
     }
+
+    foreach ($_SERVER as $key => $value) {
+      if (str_contains(strtolower($key), ['filename', 'script_name', 'php_self', 'document', 'password', 'key', 'token', 'port', 'user', 'connection', 'host', 'database'])) {
+        $development->blacklist('_SERVER', $key);
+      }
+    }
+
+    $whoopsRun->pushHandler(
+      $isConsole ? $cliErrors : (config('app.debug') ? $development : $production)
+    );
 
     if (Misc::isAjaxRequest()) {
       $whoopsRun->pushHandler(new JsonResponseHandler);
@@ -55,7 +81,16 @@ trait ErrorReport
   public function uiRegister() : Closure
   {
     return function($exception, $inspector, $run) {
-      Events::trigger('internal.error', [$exception, $inspector, $this->isAjax()]);
+      $appHandler = new \App\Exceptions\Handler();
+
+      if ($exception instanceof Exception) {
+        return $appHandler->render(
+          $this->getRequest() ?? new Request(array_merge($_POST, $_FILES)),
+          $exception
+        );
+      }
+
+      Events::trigger('internal.error', [$exception]);
     };
   }
 
@@ -69,6 +104,7 @@ trait ErrorReport
     return function($exception, $inspector, $run) {
       Output::error($exception);
       die($exception . PHP_EOL);
+      exit;
     };
   }
 
