@@ -4,15 +4,14 @@ namespace Modulus\Framework\Exceptions;
 
 use Exception;
 
-class TokenMismatchException extends Exception
+class RouterUnhandledException extends Exception
 {
   /**
    * __construct
    *
-   * @param string $message
    * @return void
    */
-  public function __construct(string $message)
+  public function __construct()
   {
     $args = debug_backtrace();
 
@@ -20,6 +19,6 @@ class TokenMismatchException extends Exception
       $this->{$key} = $value;
     }
 
-    $this->message = $message;
+    $this->message = 'Could not load the RouterResolver';
   }
 }
