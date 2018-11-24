@@ -2,12 +2,14 @@
 
 namespace Modulus\Framework\Upstart;
 
+use Modulus\Utility\Events;
 use AtlantisPHP\Swish\Route;
+use App\Resolvers\EventsResolver;
 use App\Resolvers\RouterResolver;
 use Modulus\Http\Route as Router;
 use AtlantisPHP\Swish\SwishHandler;
 use Modulus\Framework\Upstart\SwishEvents;
-use Modulus\Framework\Exceptions\RouterUnhandled;
+use Modulus\Framework\Exceptions\RouterUnhandledException;
 
 trait SwishRouter
 {
@@ -20,7 +22,7 @@ trait SwishRouter
    */
   private function handleSwish() : void
   {
-    if (!class_exists(RouterResolver::class)) throw new RouterUnhandled;
+    if (!class_exists(RouterResolver::class)) throw new RouterUnhandledException;
 
     SwishHandler::setNamespace((new RouterResolver)->getNamespace());
     SwishHandler::fail($this->swishFails());
@@ -38,14 +40,17 @@ trait SwishRouter
   {
     $routesFolder = config('app.dir') . 'routes' . DIRECTORY_SEPARATOR;
 
-    $this->initialize();
-
     $router = new RouterResolver;
     $router->start([
       'route' => new Router,
     ]);
 
-    startphp($routesFolder . 'events');
+    $events = new EventsResolver;
+    $events->start([
+      'events' => $eventsManager = new Events,
+    ]);
+
+    $eventsManager->register();
 
     if (!$isConsole) Route::dispatch();
   }
