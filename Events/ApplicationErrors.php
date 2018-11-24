@@ -11,6 +11,7 @@ class ApplicationErrors extends Event
   /**
    * Handle event
    *
+   * @param mixed $exception
    * @return void
    */
   protected function handle($exception)
