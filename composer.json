@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/framework",
   "description": "Framework component for modulusPHP",
-  "version": "1.9.8.1",
+  "version": "1.9.8.2",
   "license": "MIT",
   "type": "package",
   "authors": [{
@@ -13,6 +13,7 @@
     "atlantisphp/swish": "^1.5.1.1",
     "atlantisphp/telemonlog": "1.0",
     "bugsnag/bugsnag": "^3.14",
+    "filp/whoops": "^2.2",
     "doctrine/dbal": "^2.8",
     "hashids/hashids": "^3.0",
     "illuminate/validation": "5.7.*",
@@ -30,7 +31,6 @@
     "psy/psysh": "@stable"
   },
   "require-dev": {
-    "filp/whoops": "^2.2",
     "fzaninotto/faker": "^1.8"
   },
   "autoload": {
