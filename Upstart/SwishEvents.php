@@ -35,7 +35,8 @@ trait SwishEvents
    */
   private function swishBefore()
   {
-    return function($route, $callback) {
+    $self = $this;
+    return function($route, $callback) use ($self) {
       $route->variables = (new Reflect)->handle($callback, $route->variables, $route);
 
       // get controller middleware
@@ -55,18 +56,23 @@ trait SwishEvents
         }
       }
 
+      // get all middleware's
       foreach (Route::$routes as $key => $value) {
         if ($value['id'] == $route->id) {
           $route->middleware = array_merge($value['middleware'], $all ?? []);
         }
       }
 
+      // create a new request object
       $request = Reflect::$request ?? new Request(array_merge($_POST, $_FILES));
       $request->route = $route;
       $this->setRequest($request);
 
+      // remove cors to allow the middleware to handle it
+      $self->removeCors();
       Middleware::run($request, $route, substr($route->file, 0, strlen($route->file) - 4));
 
+      // return matched variables
       return $route->variables;
     };
   }
