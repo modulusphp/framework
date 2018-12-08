@@ -5,6 +5,7 @@ namespace Modulus\Framework;
 use App\Resolvers\AppServiceResolver;
 use Modulus\Framework\Upstart\AppLogger;
 use Modulus\Framework\Upstart\AppConnect;
+use Modulus\Framework\Upstart\HandleCors;
 use Modulus\Framework\Upstart\ErrorReport;
 use Modulus\Framework\Upstart\SwishRouter;
 use Modulus\Framework\Mocks\MustRememberMe;
@@ -15,6 +16,7 @@ class Upstart
 {
   use AppLogger;        // Configure application logger
   use AppConnect;       // Initialize Database connection and Environment variables
+  use HandleCors;       // Allow other applications to reach the router dispatch
   use SwishRouter;      // Handle application routing
   use ErrorReport;      // Handle application error reporting
   use ViewComponent;    // Strap application View
@@ -42,6 +44,7 @@ class Upstart
    */
   public function boot(?bool $isConsole = false) : void
   {
+    $this->addCors();
     if (Upstart::$isReady) return;
 
     $this->bootEnv();
