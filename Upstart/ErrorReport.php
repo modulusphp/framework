@@ -62,7 +62,6 @@ trait ErrorReport
     );
 
     if (Misc::isAjaxRequest()) {
-      $whoopsRun->pushHandler(new JsonResponseHandler);
       $errors->ajax = true;
     }
 
