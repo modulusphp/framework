@@ -5,6 +5,7 @@ namespace Modulus\Framework\Events;
 use Modulus\Http\Rest;
 use Modulus\Utility\View;
 use Modulus\Utility\Event;
+use AtlantisPHP\Telemonlog\Output;
 
 class ApplicationErrors extends Event
 {
@@ -16,6 +17,8 @@ class ApplicationErrors extends Event
    */
   protected function handle($exception)
   {
+    Output::error($exception);
+
     if ($this->isAjax()) {
       $this->toJson($exception);
       return;
