@@ -5,6 +5,7 @@ namespace Modulus\Framework\Auth;
 use Modulus\Http\Get;
 use Modulus\Http\Request;
 use Modulus\Utility\View;
+use Modulus\Http\Session;
 use Modulus\Http\Redirect;
 use Modulus\Security\Auth;
 use Modulus\Utility\Events;
@@ -58,12 +59,25 @@ trait MustRegisterNewUser
       $verified = $this->verify(Get::key('token'), $provider, $this->musk());
 
       if (isset($verified->id)) {
-        if (Auth::provider($provider)->login($verified)->status == 'success') {
-          return Redirect::to($this->redirectPath(), 200);
+        if (Session::has('_uas') && Session::key('_uas') == $verified->remember_token) {
+          return $this->onSuccessfulEmailVerification(false);
+        } else if (Auth::provider($provider)->login($verified)->status == 'success') {
+          return $this->onSuccessfulEmailVerification(false);
         }
       }
     }
 
+    $this->onSuccessfulEmailVerification(true);
+  }
+
+  /**
+   * Event after an account get's verified.
+   *
+   * @param bool $verified
+   * @return void
+   */
+  public function onSuccessfulEmailVerification(bool $verified)
+  {
     Redirect::to($this->redirectPath(), 200);
   }
 }
