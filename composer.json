@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/framework",
   "description": "Framework component for modulusPHP",
-  "version": "1.9.8.5",
+  "version": "1.9.8.5.1",
   "license": "MIT",
   "type": "package",
   "authors": [{
@@ -28,9 +28,7 @@
     "modulusphp/utility": "1.9.*",
     "modulusphp/filesystem": "1.9.*",
     "peppeocchi/php-cron-scheduler": "^2.3",
-    "psy/psysh": "@stable"
-  },
-  "require-dev": {
+    "psy/psysh": "@stable",
     "fzaninotto/faker": "^1.8"
   },
   "autoload": {
