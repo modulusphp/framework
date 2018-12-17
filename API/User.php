@@ -16,7 +16,7 @@ class User extends Eloquent
    */
   public function getSecretAttribute($value)
   {
-    if ($value == null) $this->update(['secret' => $secret = (new Hashids('', 15))->encode($this->id)]);
+    if ($value == null) $this->update(['secret' => $secret = (new Hashids(Hash::random(20), 15))->encode($this->id)]);
     return $value ?? $secret;
   }
 
