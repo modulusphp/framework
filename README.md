@@ -1,3 +1,3 @@
-# modulusPHP Core
+# Modulus Core
 
-This package is the core component of modulusPHP.
+This package is the core component of Modulus.
