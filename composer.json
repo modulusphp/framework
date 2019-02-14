@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/framework",
   "description": "Framework component for modulusPHP",
-  "version": "1.9.8.8",
+  "version": "1.9.8.9",
   "license": "MIT",
   "type": "package",
   "authors": [{
@@ -10,7 +10,7 @@
   }],
   "require": {
     "atlantisphp/medusa": "^1.1.0",
-    "atlantisphp/swish": "^1.5.1.1",
+    "atlantisphp/swish": "1.5.*",
     "atlantisphp/telemonlog": "1.0",
     "bugsnag/bugsnag": "^3.14",
     "filp/whoops": "^2.2",
