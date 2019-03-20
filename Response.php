@@ -43,6 +43,11 @@ class Response
     /**
      * Avoid "Segmentation fault (core dumped)"
      */
-    echo '';
+    echo ' ';
+
+    /**
+     * Return nothing
+     */
+    return null;
   }
 }
