@@ -2,11 +2,9 @@
 
 namespace Modulus\Framework\Upstart;
 
-use Modulus\Http\Rest;
 use Modulus\Http\Status;
 use Modulus\Http\Request;
 use Modulus\Utility\View;
-use Modulus\Http\Redirect;
 use Modulus\Utility\Events;
 use AtlantisPHP\Swish\Route;
 use Modulus\Utility\Reflect;
@@ -112,24 +110,6 @@ trait SwishEvents
    */
   private function handleResponse($response)
   {
-    /**
-     * Create a rest response
-     */
-     if (
-      is_string($response) ||
-      is_int($response) ||
-      is_float($response) ||
-      is_double($response) ||
-      is_array($response)
-    ) return is_array($response) ? Rest::response()->json($response)->send() : Rest::response($response)->send();
-
-    if (is_bool($response)) return Rest::response($response ? 'true' : 'false')->send();
-
-    if ($response instanceof Rest) return $response->send();
-
-    /**
-     * Create a redirect
-     */
-    if ($response instanceof Redirect) return $response->send();
+    $this->response = $response;
   }
 }
