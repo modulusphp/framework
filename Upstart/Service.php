@@ -37,6 +37,13 @@ class Service
    */
   public function start(?array $args = null)
   {
-    $this->boot((object)$args);
+    $arguments  = (object)$args;
+    $extendable = new Prototype;
+
+    foreach($arguments as $key => $value) {
+      $extendable->$key = $value;
+    }
+
+    $this->boot($extendable);
   }
 }
