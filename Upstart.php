@@ -2,8 +2,10 @@
 
 namespace Modulus\Framework;
 
+use Modulus\Framework\Plugin\Load;
 use App\Resolvers\AppServiceResolver;
 use Modulus\Framework\Upstart\AppLogger;
+use Modulus\Framework\Upstart\Prototype;
 use Modulus\Framework\Upstart\AppConnect;
 use Modulus\Framework\Upstart\HandleCors;
 use Modulus\Framework\Upstart\ErrorReport;
@@ -44,47 +46,86 @@ class Upstart
    */
   public function boot(?bool $isConsole = false) : void
   {
+    /**
+     * Add cors to the request
+     */
     $this->addCors();
+
+    /**
+     * Don't load framework components, if
+     * the application has already started.
+     */
     if (Upstart::$isReady) return;
 
+    /**
+     * Load application components
+     */
+    $this->startCore($isConsole);
+    $this->startApp($isConsole);
+    $this->startRouter($isConsole);
+
+    /**
+     * Mark "application" as ready to indicate, that
+     * it has started.
+     */
+    Upstart::$isReady = true;
+  }
+
+  /**
+   * Load the core components
+   *
+   * @param bool $isConsole
+   * @return void
+   */
+  private function startCore(bool $isConsole)
+  {
     $this->bootEnv();
     $this->initialize();
     $this->logger();
     $this->errorHandling($isConsole);
     $this->bootRemember();
 
+    /**
+     * Create class aliases
+     */
     $aliases = config('app.aliases');
 
     foreach($aliases as $alias => $class) {
       class_alias($class, $alias);
     }
-
-    (new AppServiceResolver)->start(Application::prototype($isConsole));
-
-    $this->autoload_plugins($isConsole);
-
-    $this->directives();
-    $this->handleSwish();
-    $this->route($isConsole);
-
-    Upstart::$isReady = true;
   }
 
   /**
-   * autoload_plugins
+   * Boot the application
    *
    * @param bool $isConsole
    * @return void
    */
-  public function autoload_plugins(bool $isConsole)
+  private function startApp(bool $isConsole)
   {
-    $plugins = config('app.plugins');
+    (new AppServiceResolver)->start(Application::prototype($isConsole));
 
-    if (env('DEV_AUTOLOAD_PLUGINS') == true) {
-      foreach($plugins as $plugin => $class) {
-        $class::boot((object)Application::prototype($isConsole));
-      }
-    }
+    /**
+     * Load framework plugins
+     */
+    Load::plugins($isConsole);
+
+    /**
+     * Extend the medusa templating language
+     */
+    $this->directives();
+  }
+
+  /**
+   * Start the application router
+   *
+   * @param bool $isConsole
+   * @return void
+   */
+  private function startRouter(bool $isConsole)
+  {
+    $this->handleSwish();
+    $this->route($isConsole);
   }
 
   /**
