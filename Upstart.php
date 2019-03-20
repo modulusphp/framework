@@ -40,11 +40,19 @@ class Upstart
   protected $request;
 
   /**
+   * $response
+   *
+   * @var mixed
+   */
+  protected $response;
+
+  /**
    * Start application
    *
-   * @return void
+   * @param bool|null $isConsole
+   * @return Upstart $this
    */
-  public function boot(?bool $isConsole = false) : void
+  public function boot(?bool $isConsole = false) : Upstart
   {
     /**
      * Add cors to the request
@@ -55,7 +63,7 @@ class Upstart
      * Don't load framework components, if
      * the application has already started.
      */
-    if (Upstart::$isReady) return;
+    if (Upstart::$isReady) return $this;
 
     /**
      * Load application components
@@ -69,6 +77,8 @@ class Upstart
      * it has started.
      */
     Upstart::$isReady = true;
+
+    return $this;
   }
 
   /**
@@ -147,5 +157,15 @@ class Upstart
   public function getRequest()
   {
     return $this->request;
+  }
+
+  /**
+   * Get application response
+   *
+   * @return mixed
+   */
+  public function getResponse()
+  {
+    return $this->response;
   }
 }
