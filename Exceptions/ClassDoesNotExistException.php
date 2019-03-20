@@ -4,7 +4,7 @@ namespace Modulus\Framework\Exceptions;
 
 use Exception;
 
-class CannotExtendClassException extends Exception
+class ClassDoesNotExistException extends Exception
 {
   /**
    * __construct
