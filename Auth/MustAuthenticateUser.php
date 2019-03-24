@@ -57,7 +57,7 @@ trait MustAuthenticateUser
    */
   public function showLoginPage()
   {
-    View::make('app.auth.login');
+    return View::make('app.auth.login');
   }
 
   /**
@@ -67,7 +67,7 @@ trait MustAuthenticateUser
    */
   public function showMagicLinkPage()
   {
-    View::make('app.auth.password.email');
+    return View::make('app.auth.password.email');
   }
 
   /**
