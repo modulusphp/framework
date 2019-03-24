@@ -24,7 +24,7 @@ trait MustRegisterNewUser
    */
   public function showRegistrationPage()
   {
-    View::make('app.auth.register');
+    return View::make('app.auth.register');
   }
 
   /**
