@@ -3,6 +3,7 @@
 namespace Modulus\Framework;
 
 use Modulus\Http\Rest;
+use Modulus\Utility\View;
 use Modulus\Http\Redirect;
 use Modulus\Framework\Upstart;
 
@@ -41,6 +42,11 @@ class Response
     if ($response instanceof Redirect) return $response->send();
 
     /**
+     * Create a view page
+     */
+    if (Response::isView($response)) return;
+
+    /**
      * Avoid "Segmentation fault (core dumped)"
      */
     echo ' ';
@@ -49,5 +55,22 @@ class Response
      * Return nothing
      */
     return null;
+  }
+
+  /**
+   * Render a view
+   *
+   * @param mixed $response
+   * @return bool
+   */
+  public static function isView($response) : bool
+  {
+    if ($response instanceof View) {
+      $response->render();
+
+      return true;
+    }
+
+    return false;
   }
 }
