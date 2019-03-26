@@ -57,7 +57,7 @@ class Upstart
     /**
      * Add cors to the request
      */
-    $this->addCors();
+    $this->addCors($isConsole);
 
     /**
      * Don't load framework components, if
@@ -113,6 +113,9 @@ class Upstart
    */
   private function startApp(bool $isConsole)
   {
+    /**
+     * Start the App Service Resolver
+     */
     (new AppServiceResolver)->start(Application::prototype($isConsole));
 
     /**
