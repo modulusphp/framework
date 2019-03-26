@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/framework",
   "description": "Framework component for Modulus",
-  "version": "1.9.9.2",
+  "version": "1.9.9.3",
   "license": "MIT",
   "type": "package",
   "authors": [{
