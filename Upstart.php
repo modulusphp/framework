@@ -40,6 +40,13 @@ class Upstart
   protected $request;
 
   /**
+   * $service
+   *
+   * @var \App\Resolvers\AppServiceResolver
+   */
+  protected $service;
+
+  /**
    * $response
    *
    * @var mixed
@@ -114,9 +121,14 @@ class Upstart
   private function startApp(bool $isConsole)
   {
     /**
+     * Create a new instance of the service resolver
+     */
+    $this->service = new AppServiceResolver;
+
+    /**
      * Start the App Service Resolver
      */
-    (new AppServiceResolver)->start(Application::prototype($isConsole));
+    $this->service->start(Application::prototype($isConsole));
 
     /**
      * Load framework plugins
@@ -139,6 +151,17 @@ class Upstart
   {
     $this->handleSwish();
     $this->route($isConsole);
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @param mixed $response
+   * @return bool
+   */
+  public function parseResponse($response) : bool
+  {
+    return $this->service->onExit($response);
   }
 
   /**
