@@ -46,4 +46,26 @@ class Service
 
     $this->boot($extendable);
   }
+
+  /**
+   * Handle on exit response
+   *
+   * @param mixed $response
+   * @return bool
+   */
+  public function onExit($response) : bool
+  {
+    return $this->exit($response);
+  }
+
+  /**
+   * Handle application response on exit
+   *
+   * @param mixed $response
+   * @return bool
+   */
+  protected function exit($response) : bool
+  {
+    return false;
+  }
 }
