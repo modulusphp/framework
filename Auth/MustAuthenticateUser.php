@@ -77,7 +77,12 @@ trait MustAuthenticateUser
    */
   public function loginWithEmail(Request $request)
   {
+    $request->rules = [
+      'email' => 'required'
+    ];
+
     $request->validate();
+
     $provider = $this->provider;
 
     $info = MagicLink::notify($request, $provider, $this->musk());
