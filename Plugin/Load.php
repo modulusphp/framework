@@ -13,9 +13,11 @@ class Load
    * Load plugins
    *
    * @param bool $isConsole
+   * @param bool $start
+   * @param mixed $response
    * @return void
    */
-  public static function plugins(bool $isConsole)
+  public static function plugins(bool $isConsole, bool $start = true, $response = null)
   {
     $plugins = config('app.plugins');
 
@@ -39,8 +41,14 @@ class Load
 
         if (!Validate::check($extension, $class_info)) return;
 
-        $extension->instance($extendable, $DIR);
-        $extension->boot($extendable);
+        if ($start) {
+          $extension->instance($extendable, $DIR);
+          $extension->boot($extendable);
+        } else {
+          if ($extension->exit($response)) {
+            continue;
+          }
+        }
       }
     }
   }
