@@ -22,6 +22,13 @@ class Response
     $response = $app->getResponse();
 
     /**
+     * Convert to array
+     */
+    if (method_exists($response, 'toArray')) {
+      $response = $response->toArray();
+    }
+
+    /**
      * Create a rest response
      */
     if (
