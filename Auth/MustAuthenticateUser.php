@@ -11,7 +11,6 @@ use Modulus\Framework\MagicLink;
 use Modulus\Utility\Notification;
 use Modulus\Framework\Auth\RedirectsUsers;
 use Modulus\Framework\Auth\Notifications\MustLogin;
-use Modulus\Framework\Auth\Requests\EmailLoginRequest;
 
 trait MustAuthenticateUser
 {
@@ -73,10 +72,10 @@ trait MustAuthenticateUser
   /**
    * Login with rmail
    *
-   * @param EmailLoginRequest $request
+   * @param Request $request
    * @return void
    */
-  public function loginWithEmail(EmailLoginRequest $request)
+  public function loginWithEmail(Request $request)
   {
     $request->validate();
     $provider = $this->provider;
