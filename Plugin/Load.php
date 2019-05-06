@@ -41,12 +41,14 @@ class Load
 
         if (!Validate::check($extension, $class_info)) return;
 
-        if ($start) {
-          $extension->instance($extendable, $DIR);
-          $extension->boot($extendable);
-        } else {
-          if ($extension->exit($response)) {
-            continue;
+        if ($extension->onload()) {
+          if ($start) {
+            $extension->instance($extendable, $DIR);
+            $extension->boot($extendable);
+          } else {
+            if ($extension->exit($response)) {
+              continue;
+            }
           }
         }
       }

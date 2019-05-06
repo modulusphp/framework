@@ -6,6 +6,7 @@ use Modulus\Http\Rest;
 use Modulus\Utility\View;
 use Modulus\Http\Redirect;
 use Modulus\Framework\Upstart;
+use Modulus\Utility\Groupable;
 
 class Response
 {
@@ -20,6 +21,13 @@ class Response
      * Get application response
      */
     $response = $app->getResponse();
+
+    /**
+     * Convert to collection
+     */
+    if ($response instanceof Groupable) {
+      $response = $response->all();
+    }
 
     /**
      * Convert to array
