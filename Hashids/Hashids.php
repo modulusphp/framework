@@ -23,14 +23,17 @@ class Hashids
   public static function __callStatic(string $method, array $args)
   {
     /**
-     * Set the default pod
+     * Configure hashid instance
      */
-    $pod = $args[1] ?? 'main';
+    $pod      = $args[1] ?? 'main';
+    $salt     = $args[2] ?? config("hashids.{$pod}.salt");
+    $length   = $args[3] ?? config("hashids.{$pod}.length");
+    $alphabet = $args[4] ?? config("hashids.{$pod}.alphabet");
 
     /**
      * Create or get a instance of VinklaHash
      */
-    $hashids = new VinklaHash(config("hashids.{$pod}.salt"), config("hashids.{$pod}.length"), config("hashids.{$pod}.alphabet"));
+    $hashids = new VinklaHash(config("hashids.{$pod}.salt"), $length, $alphabet);
 
     /**
      * $hashids = (Self::$instance ?? Self::$instance = new VinklaHash(config("hashids.{$pod}.salt"), config("hashids.{$pod}.length"), config("hashids.{$pod}.alphabet")));
@@ -48,7 +51,7 @@ class Hashids
        * Encode value
        */
       return $hashids->encode($args[0]);
-    } else if (strtolower($method) == 'decode') {
+    } elseif (strtolower($method) == 'decode') {
       /**
        * Decode value
        */
