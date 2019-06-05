@@ -37,6 +37,13 @@ class Response
     }
 
     /**
+     * Convert to view
+     */
+    if (method_exists($response, 'toView')) {
+      $response = $response->toView();
+    }
+
+    /**
      * Create a rest response
      */
     if (
