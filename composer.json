@@ -1,0 +1,40 @@
+{
+  "name": "modulusphp/framework",
+  "description": "Framework component for Modulus",
+  "version": "1.9.9.6",
+  "license": "MIT",
+  "type": "package",
+  "authors": [{
+    "name": "Donald Pakkies",
+    "email": "donaldpakkies@gmail.com"
+  }],
+  "require": {
+    "atlantisphp/medusa": "1.1.*",
+    "atlantisphp/swish": "1.5.*",
+    "atlantisphp/telemonlog": "1.0",
+    "bugsnag/bugsnag": "^3.14",
+    "filp/whoops": "^2.2",
+    "doctrine/dbal": "^2.8",
+    "hashids/hashids": "^3.0",
+    "illuminate/validation": "5.8.*",
+    "illuminate/database": "5.8.*",
+    "modulusphp/hibernate": "1.9.*",
+    "modulusphp/console": "1.9.*",
+    "modulusphp/directives": "1.9.*",
+    "modulusphp/http": "1.9.*",
+    "modulusphp/security": "1.9.*",
+    "modulusphp/support": "1.9.*",
+    "modulusphp/system": "1.9.*",
+    "modulusphp/utility": "1.9.*",
+    "modulusphp/filesystem": "1.9.*",
+    "peppeocchi/php-cron-scheduler": "^2.3",
+    "psy/psysh": "@stable",
+    "fzaninotto/faker": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Modulus\\Framework\\": ""
+    }
+  },
+  "minimum-stability": "stable"
+}
