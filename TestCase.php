@@ -11,7 +11,7 @@ abstract class TestCase extends PHPTestCase
    *
    * @return void
    */
-  public static function setUpBeforeClass()
+  public static function setUpBeforeClass() : void
   {
     (new Upstart)->boot(true);
   }
