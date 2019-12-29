@@ -2,8 +2,9 @@
 
 namespace Modulus\Framework;
 
-use Modulus\Support\Config;
 use Modulus\Utility\Variable;
+use Modulus\Hibernate\Session;
+use Modulus\Hibernate\Session\SessionBase;
 
 class Blulight
 {
@@ -14,47 +15,46 @@ class Blulight
    */
   public static function start() : void
   {
-    (new Blulight)->run();
+    (new Blulight)
+          ->run()
+          ->session()
+          ->variables();
   }
 
   /**
    * Run blulight
    *
-   * @return void
+   * @return Blulight
    */
-  public function run() : bool
+  public function run() : self
   {
-    $this->startSession();
-    $this->loadVariables();
-    return true;
+    return $this;
   }
 
   /**
    * Start the session
    *
-   * @return mixed
+   * @return Blulight
    */
-  private function startSession()
+  private function session() : self
   {
-    if (Config::has('session') && is_array($session = Config::get('session'))) {
-      return session_start($session);
-    }
+    SessionBase::boot();
 
-    session_start([
-      'name' => 'modulus_session'
-    ]);
+    return $this;
   }
 
   /**
    * Get Variables
    *
-   * @return void
+   * @return Blulight
    */
-  private function loadVariables() : void
+  private function variables() : self
   {
-    if (isset($_SESSION['application']['with'])) {
-      Variable::$data = $_SESSION['application']['with'];
-      unset($_SESSION['application']['with']);
+    if (Session::flash()->has('application/with')) {
+      Variable::$data = Session::flash()->get('application/with');
+      Session::forget(['application/with']);
     }
+
+    return $this;
   }
 }
