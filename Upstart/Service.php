@@ -2,8 +2,19 @@
 
 namespace Modulus\Framework\Upstart;
 
+use Exception;
+use Modulus\Upstart\Driver;
+use Modulus\Upstart\Application;
+
 class Service
 {
+  /**
+   * Application
+   *
+   * @var Application $app
+   */
+  protected $app;
+
   /**
    * The event listener mappings for the application.
    *
@@ -35,16 +46,19 @@ class Service
    *
    * @return void
    */
-  public function start(?array $args = null)
+  public function start()
   {
-    $arguments  = (object)$args;
-    $extendable = new Prototype;
+    $this->boot();
+  }
 
-    foreach($arguments as $key => $value) {
-      $extendable->$key = $value;
-    }
-
-    $this->boot($extendable);
+  /**
+   * Register application services
+   *
+   * @return void
+   */
+  protected function boot() : void
+  {
+    //
   }
 
   /**
@@ -67,5 +81,32 @@ class Service
   protected function exit($response) : bool
   {
     return false;
+  }
+
+  /**
+   * Set application
+   *
+   * @param Application $app
+   */
+  public function setApp(Application $app)
+  {
+    $this->app = $app;
+
+    return $this;
+  }
+
+  /**
+   * Extendable class
+   *
+   * @param string $class
+   * @return Driver
+   */
+  public function base(string $class) : Driver
+  {
+    if (!class_exists($class)) throw new Exception('Class does not exist');
+
+    if (!method_exists($class, 'register')) throw new Exception('Can\t register');
+
+    return new Driver($class);
   }
 }

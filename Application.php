@@ -13,6 +13,25 @@ use Modulus\Utility\GlobalVariables;
 class Application
 {
   /**
+   * Global classes
+   *
+   * @var array
+   */
+  private static $accessible = [];
+
+  /**
+   * Register a publicly accessible application
+   *
+   * @param string $name
+   * @param mixed $plugin
+   * @return void
+   */
+  public static function register(string $name, $plugin)
+  {
+    self::$accessible = array_merge(self::$accessible, [$name => $plugin]);
+  }
+
+  /**
    * Build prototype
    *
    * @param bool $isConsole
@@ -20,14 +39,14 @@ class Application
    */
   public static function prototype(?bool $isConsole = false) : array
   {
-    return [
+    return array_merge([
       'console' => $isConsole,
       'config' => Application::getConfig(),
       'events' => new Events,
       'route' => new Route,
       'view' => Template::class,
       'variables' => GlobalVariables::class
-    ];
+    ], self::$accessible);
   }
 
   /**
